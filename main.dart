@@ -162,9 +162,10 @@ class PatternBuild implements PatternComponent {
         debug("Error while getting file for texture! [template not found -> ${temp.path}]");
         return;
       }
-      image = decodeImage(temp.readAsBytesSync())!;
+      image = decodePng(temp.readAsBytesSync())!;
     }else
       image = provideType(type);
+    image.channels = Channels.rgba;
 
     values.forEach((key, value) {
       File q = File(key);
@@ -177,7 +178,8 @@ class PatternBuild implements PatternComponent {
         return;
       }
 
-      Image texture = decodeImage(q.readAsBytesSync())!;
+      Image texture = decodePng(q.readAsBytesSync())!;
+      texture.channels = Channels.rgba;
 
       debug("Applying texture... [$key -> $destination {${value[0]}, ${value[1]}}]");
       drawImage(image, texture,
