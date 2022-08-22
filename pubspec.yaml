@@ -1,6 +1,6 @@
 name: texture_builder
 description: >-
-  A base texture builder.
+  A simple texturepack builder.
 version: 1.0.0
 
 environment:
