@@ -271,8 +271,10 @@ void main() {
     case operations.BUILD: {
       debug("Building a texturepack...");
       File temp = File('build');
-      if(temp.existsSync())
-        temp.deleteSync(recursive: true);
+      if(temp.existsSync()) {
+          temp.deleteSync(recursive: true);
+          debug("Folder \'build\' exists! Deleting...");
+      }
       for(PatternComponent component in components) {
         component.execute();
       }
