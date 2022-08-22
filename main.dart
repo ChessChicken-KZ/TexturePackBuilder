@@ -71,22 +71,24 @@ abstract class PatternComponent {
 }
 
 class PatternRedirect implements PatternComponent {
-  String resource;
-  String destination;
+  Map values;
 
-  PatternRedirect(String file, String get): destination = "build/" + file, resource = "dev/" + get;
+  PatternRedirect(Map strings): values = strings;
 
   @override
   void execute() {
-    File f = File(resource);
-    if(!f.existsSync()) {
-      debug("Couldn't find file [$resource]... skipping!");
-      return;
+    for(MapEntry a in values.entries) {
+      File f = File('dev/' + a.value.toString());
+      if(!f.existsSync()) {
+        debug("Couldn't find file [${f.path}]... skipping!");
+        continue;
+      }
+
+      File to = File('build/' + a.key.toString());
+      to.createSync(recursive: true);
+      f.copySync(to.path);
+      debug("Redirect [${f.path}] -> [${to.path}].");
     }
-    File to = File(destination);
-    to.createSync(recursive: true);
-    f.copySync(to.path);
-    debug("Redirect [$resource] -> [$destination].");
   }
 
   @override
@@ -96,7 +98,7 @@ class PatternRedirect implements PatternComponent {
 
   @override
   String toString() {
-    return "redirect { 'resource'=$resource, 'destination'=$destination }";
+    return "redirect { 'values'=${values.toString()} }";
   }
 }
 
@@ -184,7 +186,9 @@ class PatternBuild implements PatternComponent {
           srcW: value[2], srcH: value[3],
           blend: false);
     });
-    File(destination).writeAsBytesSync(encodePng(image));
+    File result = File(destination);
+    result.createSync(recursive: true);
+    result.writeAsBytesSync(encodePng(image));
     debug("Image manipulation complete! [$destination]");
   }
 
@@ -240,7 +244,7 @@ void main() {
     }
     switch(a_p_type) { // ignore: missing_enum_constant_in_switch
       case pattern_types.redirect:
-        components.add(PatternRedirect(map['file'], map['get']));
+        components.add(PatternRedirect(map['files']));
         continue;
       case pattern_types.build_32:
         components.add(PatternBuild(pattern_types.build_32, map['file'], map['build'], map['base']));
