@@ -12,3 +12,5 @@ dart compile exe main.dart
 
 ## License
 The project is under [`Apache License 2.0`](https://github.com/ChessChicken-KZ/TexturePackBuilder/blob/main/LICENSE).
+
+[Example texture pack](https://github.com/ChessChicken-KZ/TexturePackBuilder/tree/main/example_b1.7.3) is the creation of Mojang Studios and only used for "educational" reasons as an example.
