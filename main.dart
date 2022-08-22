@@ -195,7 +195,7 @@ class PatternBuild implements PatternComponent {
 
   @override
   String toString() {
-    return "build { 'type'=$type, 'destination'=$destination, 'template'=$template, 'values'=${values.toString()} }";
+    return "build { 'type'=${type.name}, 'destination'=$destination, 'template'=$template, 'values'=${values.toString()} }";
   }
 
 }
