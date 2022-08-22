@@ -1,4 +1,4 @@
-name: texture_builder
+name: TexturePackBuilder
 description: >-
   A simple texturepack builder.
 version: 1.0.0
