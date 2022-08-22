@@ -238,7 +238,7 @@ void main() {
       debug("Error while parsing a pattern content! [type undefined] (${map.toString()})");
       continue;
     }
-    switch(a_p_type) {
+    switch(a_p_type) { // ignore: missing_enum_constant_in_switch
       case pattern_types.redirect:
         components.add(PatternRedirect(map['file'], map['get']));
         continue;
@@ -270,9 +270,11 @@ void main() {
       for(PatternComponent component in components) {
         component.execute();
       }
+      debug("Project built! Exiting...");
       return;
     }
     case operations.DEBUG: {
+      print("~~~~~");
       debug("Dumping all data...");
       for(PatternComponent component in components) {
         debug(component.toString());
